@@ -1,0 +1,14 @@
+---
+- name: Demo playbook to create a user and view a fact
+  hosts: linux
+  become: true
+  tasks:
+    - name: add new user
+      user:
+        name: geoff
+        state: present
+        shell: /bin/bash
+    - name: view OS family fact with debug module
+      debug:
+        msg: The OS is {{  ansible_os_family }}
+...
