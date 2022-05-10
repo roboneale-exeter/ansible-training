@@ -1,0 +1,30 @@
+---
+- name: Manage Local User Keys
+  hosts: localhost
+  become: false
+  gather_facts: false
+  tasks:
+    - name: Import task to set local SSH keys
+      import_tasks: tasks/localuserkeys.yml
+- name: Manage User Account
+  hosts: all
+  become: true
+  gather_facts: false
+  tasks:
+    - name: User creation tasks
+      block:
+        - name: Create new user
+          import_tasks: tasks/create.yml
+        - name: Copy ssh key to remote account
+          import_tasks: tasks/authkey.yml
+        - name: Give sudo access 
+          import_tasks: tasks/createsudoers.yml
+      when: user_create == 'yes'
+    - name: User deletion tasks
+      block:
+        - name: Delete user
+          import_tasks: tasks/delete.yml
+        - name: Remove sudo access
+          import_tasks: tasks/deletesudoers.yml
+      when: user_create == 'no'
+...

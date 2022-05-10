@@ -1,0 +1,27 @@
+---
+- name: optional1
+  hosts: all
+  gather_facts: false
+  vars:
+    myfile: /tmp/file1
+  tasks:
+    - name: add file if needed
+      command: rm {{ myfile }}
+      args:
+        removes: '{{ myfile }}'
+- name: optional2
+  hosts: localhost
+  become: true
+  gather_facts: false
+  tasks:
+    - name: create u1 user
+      user:
+        name: u1
+        state: present
+        password: "{{ 'Password1' | password_hash('sha512') }}"
+        update_password: on_create
+      register: user_data
+    - name: set password ageing
+      command: chage -M 99999 -m 0 -E -1 -I -1 {{ user_data.name }}
+      when: user_data.changed
+...

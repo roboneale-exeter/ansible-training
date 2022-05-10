@@ -1,0 +1,7 @@
+---
+- name: Manage Local User SSH Key
+  user:
+    name: tux
+    state: present
+    generate_ssh_key: true
+...

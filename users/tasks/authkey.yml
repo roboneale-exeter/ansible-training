@@ -1,0 +1,8 @@
+---
+- name: Add ssh key to authorized keys file
+  authorized_key:
+    user: "{{ user_account | default('devops') }}"
+    key: "{{ lookup('file', '/home/tux/.ssh/id_rsa.pub') }}"
+    state: present
+    manage_dir: true
+...
