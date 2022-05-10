@@ -1,0 +1,12 @@
+---
+- name: playbook1 
+  hosts: linux
+  gather_facts: true
+  become: false
+  vars:
+    os_info: "{{ lookup('file', '/etc/os-release') }}"
+  tasks:
+    - name:
+      debug:
+        msg: "os_info = {{ os_info }}"
+...

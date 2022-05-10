@@ -1,9 +1,16 @@
 ---
-- name: 'Create User Account'
+- name: Import vars from file
+  include_vars: ../passwords.yml
+#  vars:
+#    password: "{{ passwords.user_account | default(passwords.default) }}"
+- name: Debug password
+  debug:
+    msg: "passwords.[user_account]={{ passwords.[user_account] }}"
+- name: Create User Account
   user:
     name: "{{ user_account | default('devops') }}"
     state: present
     shell: /bin/bash
-    password: "{{ '[Password1]' | password_hash('sha512') }}"
+    password: "{{ password | password_hash('sha512') }}"
     update_password: on_create
 ...
