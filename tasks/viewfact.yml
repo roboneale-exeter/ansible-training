@@ -1,0 +1,6 @@
+---
+- name: view os version fact
+  debug:
+    msg: The OS version is {{ ansible_distribution_version }}
+  when: ansible_os_family == 'Debian'
+...

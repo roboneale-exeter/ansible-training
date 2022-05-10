@@ -12,4 +12,6 @@
       become: false
       debug:
         msg: The OS is {{  ansible_os_family }}
+    - name: view another fact using a seperate task file
+      include_tasks: tasks/viewfact.yml
 ...
