@@ -1,0 +1,8 @@
+---
+- name: update the Debian based package cache
+  become: true
+  apt:
+    update_cache: true
+    cache_valid_time: 86400
+  when: ansible_os_family == 'Debian'
+...

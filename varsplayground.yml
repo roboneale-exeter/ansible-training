@@ -1,0 +1,25 @@
+---
+- name: playbook for playing with vars
+  hosts: linux
+  become: false
+  gather_facts: false
+  vars:
+    favourites:
+      rob: blue
+      andrew: orange
+      martyn: red
+      default: black
+    user: "{{ person | default('default') }}"
+  tasks:
+    - name: print all favourites
+      debug: 
+        msg: "favourites = {{ favourites }}"
+
+    - name: print user var
+      debug:
+        msg: "user = {{ user }}"
+
+    - name: print variable.key
+      debug:
+        msg: "variable[key] = {{ favourites[user] }}"
+...

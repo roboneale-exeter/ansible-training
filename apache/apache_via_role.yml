@@ -1,0 +1,9 @@
+---
+- name: Install and Manage the Apache Web Server using our apache role
+  hosts: all
+  become: true
+  gather_facts: true
+  roles:
+    - apt_update
+    - apache
+...

@@ -1,0 +1,13 @@
+---
+- name: examining result variable from stat command
+  gather_facts: false
+  hosts: localhost
+  tasks:
+    - name: stat file
+      stat:
+        path: /etc/hosts
+      register: result
+    - name: show result
+      debug:
+        msg: "{{ result }}"
+...

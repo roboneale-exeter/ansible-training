@@ -1,0 +1,16 @@
+---
+- name: playing with file, env, ini lookups
+  gather_facts: false
+  hosts: localhost
+  vars:
+    filepath: /home/tux/myenv/lib/python3.8/site-packages/ansible_collections/vyos/vyos/tox.ini
+  tasks:
+    - name: check file exists
+      stat:
+        path: "{{ filepath }}"
+      register: result
+    - name: print data from file 
+      debug:
+        msg: "{{ lookup('ini', 'ignore section=flake8 file=' + filepath) }}"
+      when: result.stat.exists
+...

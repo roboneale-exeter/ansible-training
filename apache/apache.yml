@@ -1,0 +1,22 @@
+---
+- name: Install and Manage the Apache Web Server
+  hosts: all
+  become: true
+  gather_facts: true
+  tasks:
+    - name: Update the apt cache for debain machines only
+      include_tasks: ../tasks/update_apt_cache.yml
+    - name: Install Apache2 web server
+      package:
+        name: '{{ apache_pkg }}'
+        state: present
+    - name: Ensure apache web server is enabled for autostart and running
+      service: 
+        name: '{{ apache_svc }}'
+        enabled: true
+        state: started
+    - name: Add web content
+      copy:
+        dest: /var/www/html
+        src: web/
+...
