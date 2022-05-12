@@ -1,0 +1,43 @@
+---
+- name: p1
+  become: true
+  gather_facts: false
+  hosts: linux
+  tasks:
+  - name: Create partition1
+    parted: 
+      device: /dev/loop10
+      number: 1
+      label: msdos
+      part_start: 0%
+      part_end: 50%
+      state: present
+    register: p1_info
+  - name: Create partition2
+    parted: 
+      device: /dev/loop10
+      number: 2
+      part_start: 50%
+      part_end: 100%
+      state: present
+    register: p2_info
+  - name: Create fs on partition1
+    filesystem:
+      dev: /dev/loop10p1
+      fstype: ext4
+  - name: Create fs on partition2
+    filesystem:
+      dev: /dev/loop10p2
+      fstype: xfs
+  - name: Mount partition1
+    mount:
+      path: /data1
+      src: /dev/loop10p1
+      fstype: ext4
+      state: mounted
+  - name: Mount partition2
+    mount:
+      path: /data2
+      src: /dev/loop10p2
+      fstype: xfs
+      state: mounted

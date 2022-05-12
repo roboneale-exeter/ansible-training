@@ -4,6 +4,7 @@
   become: true
   gather_facts: true
   roles:
+    - firewalld
     - apt_update
     - apache
 ...
