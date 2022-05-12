@@ -1,0 +1,6 @@
+---
+# handlers file for journal_logging
+- name: restart_journald
+  service:
+    name: systemd-journald
+    state: restarted

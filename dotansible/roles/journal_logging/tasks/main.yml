@@ -1,0 +1,14 @@
+---
+# tasks file for journal_logging
+- name: journald.conf config file snippet
+  lineinfile:
+    path: /etc/systemd/journald.conf
+    regexp: '^Storage=persistent'
+    insertafter: '^#Storage'
+    line: Storage=persistent
+  notify: restart_journald
+- name: ensure systemd-journald service is running
+  service:
+    name: systemd-journald
+    enabled: true
+    state: started

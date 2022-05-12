@@ -1,0 +1,15 @@
+{% if ansible_os_family == 'Debian' %}
+pool 1.ubuntu.pool.ntp.org iburst maxsources 2
+{% elif ansible_os_family == 'Rocky' %}
+pool 1.centos.pool.ntp.org iburst maxsources 2
+{% else %}
+pool 1.centos.pool.ntp.org iburst maxsources 2
+{% endif %}
+pool {{ timeserver }} iburst maxsources 2
+#keyfile /etc/chrony/chrony.keys
+keyfile {{ chrony_keys }}
+driftfile /var/lib/chrony/chrony.drift
+logdir /var/log/chrony
+maxupdateskew 100.0
+rtcsync
+makestep 1 3

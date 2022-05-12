@@ -1,0 +1,26 @@
+---
+# tasks file for apache
+- name: import vars
+  include_vars: "{{ ansible_os_family }}.yml"
+- name: install
+  package:
+    name: "{{ apache_pkg }}"
+    state: present
+- name: add web content
+  copy: 
+    src: web/
+    dest: '/var/www/html/'
+- name: Start and enable apache web server
+  service:
+    name: "{{ apache_svc }}"
+    state: started
+    enabled: true
+- name: Open http port 
+  firewalld:
+    service: "{{ item }}"
+    state: enabled
+    permanent: true
+    immediate: true
+  loop: 
+    - http
+    - https

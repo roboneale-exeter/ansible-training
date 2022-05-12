@@ -1,0 +1,18 @@
+---
+# tasks file for chrony
+- name: Set os dependent vars
+  include_vars: "{{ ansible_os_family }}.yml"
+- name: Install chrony OS package
+  package:
+    name: chrony
+    state: present
+- name: Chrony config file
+  template:
+    src: templates/chrony.conf.j2
+    dest: "{{ chrony_conf }}"
+  notify: restart_chrony
+- name: chrony service
+  service:
+    name: "{{ chrony_svc }}"
+    enabled: true
+    state: started

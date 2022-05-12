@@ -1,0 +1,21 @@
+---
+# tasks file for firewalld
+
+- name: remove ufw package
+  package:
+    name: ufw
+    state: absent
+- name: install firewalld package
+  package:
+    name: firewalld
+    state: present
+- name: ensure firewalld running
+  service:
+    name: firewalld
+    state: started
+    enabled: true
+- name: open ssh port
+  firewalld:
+    service: ssh
+    state: enabled
+    permanent: true

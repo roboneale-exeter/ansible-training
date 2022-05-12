@@ -1,0 +1,7 @@
+---
+- hosts: linux
+  become: true
+  gather_facts: true
+  roles:
+    - apt_update
+    - chrony
